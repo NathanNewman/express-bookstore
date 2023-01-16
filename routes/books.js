@@ -35,7 +35,7 @@ router.post("/", async function (req, res, next) {
   if (!result.valid) {
     const listOfErrors = result.errors.map((e) => e.stack);
     const error = new ExpressError(listOfErrors, 400);
-    return next(error);
+    return next([error]);
   }
   try {
     const book = await Book.create(req.body.book);
@@ -69,7 +69,7 @@ router.delete("/:isbn", async function (req, res, next) {
     await Book.remove(req.params.isbn);
     return res.json({ message: "Book deleted" });
   } catch (err) {
-    return next(err);
+    return next([err]);
   }
 });
 
